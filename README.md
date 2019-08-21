@@ -1,4 +1,4 @@
-# hardened-nginx-docker
+# secure-nginx
 Hardened Docker Image for Nginx Server.
 
 ## Instructions:
