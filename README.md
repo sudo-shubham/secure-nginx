@@ -1,4 +1,4 @@
-# Nginx Docker Image configured for best security and performance
+# Nginx Image configured for best security and performance
 
 ## Instructions:
 - Clone this repository using `git clone https://github.com/sudo-shubham/secure-nginx`
