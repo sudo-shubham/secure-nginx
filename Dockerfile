@@ -1,8 +1,8 @@
-FROM alpine:3.10.1
+FROM alpine:3.10.2
 
 LABEL maintainer="Shubham Patel <shubhampatelsp812@gmail.com>"
 
-ENV NGINX_VERSION 1.17.2
+ENV NGINX_VERSION 1.17.4
     
 COPY ./configs/ngx_http_header_filter_module.c /tmp/ngx_http_header_filter_module.c
 COPY ./configs/nginx.h /tmp/nginx.h
