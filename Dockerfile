@@ -39,7 +39,11 @@ RUN apk update \
     && rm -r nginx-${NGINX_VERSION} \
     && apk del build-base openssl-dev zlib-dev wget \
     && rm -rf /var/cache/apk/* \
-    && mkdir /etc/nginx/conf.d
+    && mkdir /etc/nginx/conf.d \
+    && touch /var/run/nginx.pid \
+    && chown -R nginx:nginx /var/run/nginx.pid \
+    && chown -R nginx:nginx /var/cache/nginx
 
+USER nginx
 COPY configs/nginx.conf /etc/nginx/nginx.conf
 CMD ["nginx", "-g", "daemon off;"]
