@@ -28,7 +28,7 @@ RUN apk update \
         --with-http_ssl_module \
         --prefix=/etc/nginx \
         --modules-path=/usr/lib/nginx/modules \
-        --add-module=/tmp/headers-more-nginx-module \
+        --add-module=/tmp/headers-more-nginx-module/src \
         --conf-path=/etc/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --http-log-path=/var/log/nginx/access.log \
