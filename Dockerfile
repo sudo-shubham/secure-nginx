@@ -8,7 +8,8 @@ COPY ./configs/ngx_http_header_filter_module.c /tmp/ngx_http_header_filter_modul
 COPY ./configs/nginx.h /tmp/nginx.h
 
 RUN apk update \
-    && apk add --no-cache wget build-base openssl-dev pcre-dev zlib-dev\
+    && apk add --no-cache wget build-base openssl-dev git pcre-dev zlib-dev\
+    && git clone https://github.com/openresty/headers-more-nginx-module \
     && cd /etc \
     && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz \
@@ -27,6 +28,7 @@ RUN apk update \
         --with-http_ssl_module \
         --prefix=/etc/nginx \
         --modules-path=/usr/lib/nginx/modules \
+        --add-module=/tmp/headers-more-nginx-module \
         --conf-path=/etc/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --http-log-path=/var/log/nginx/access.log \
@@ -37,7 +39,7 @@ RUN apk update \
     && cd .. \
     && rm -rf /tmp/* \
     && rm -r nginx-${NGINX_VERSION} \
-    && apk del build-base openssl-dev zlib-dev wget \
+    && apk del build-base openssl-dev git zlib-dev wget \
     && rm -rf /var/cache/apk/* \
     && mkdir /etc/nginx/conf.d \
     && touch /var/run/nginx.pid \
