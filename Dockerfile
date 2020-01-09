@@ -3,12 +3,10 @@ FROM alpine:3.10.2
 LABEL maintainer="Shubham Patel <shubhampatelsp812@gmail.com>"
 
 ENV NGINX_VERSION 1.17.4
-    
-COPY ./configs/ngx_http_header_filter_module.c /tmp/ngx_http_header_filter_module.c
-COPY ./configs/nginx.h /tmp/nginx.h
 
 RUN apk update \
-    && apk add --no-cache wget build-base openssl-dev git pcre-dev zlib-dev\
+    && apk add --no-cache wget build-base openssl-dev git pcre-dev zlib-dev \
+    && cd /tmp \
     && git clone https://github.com/openresty/headers-more-nginx-module \
     && cd /etc \
     && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
@@ -19,8 +17,6 @@ RUN apk update \
     && addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && cd /etc/nginx-${NGINX_VERSION} \
-    && cp /tmp/ngx_http_header_filter_module.c /etc/nginx-${NGINX_VERSION}/src/http/ngx_http_header_filter_module.c \
-    && cp /tmp/nginx.h /etc/nginx-${NGINX_VERSION}/src/core/nginx.h \
     && ./configure \
         --sbin-path=/usr/sbin/nginx \ 
         --user=nginx \
@@ -28,7 +24,7 @@ RUN apk update \
         --with-http_ssl_module \
         --prefix=/etc/nginx \
         --modules-path=/usr/lib/nginx/modules \
-        --add-module=/tmp/headers-more-nginx-module/src \
+        --add-module=/tmp/headers-more-nginx-module \
         --conf-path=/etc/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --http-log-path=/var/log/nginx/access.log \
