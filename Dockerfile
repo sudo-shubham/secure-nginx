@@ -42,7 +42,8 @@ RUN apk update \
     && mkdir /var/cache/nginx \
     && chown -R nginx:nginx /var/run/nginx.pid \
     && chown -R nginx:nginx /var/cache/nginx \
-    && chown -R nginx:nginx /var/log/nginx
+    && chown -R nginx:nginx /var/log/nginx \
+    && chown -R nginx:nginx /etc/nginx
 
 USER nginx
 COPY configs/nginx.conf /etc/nginx/nginx.conf
