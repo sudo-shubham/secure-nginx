@@ -40,8 +40,10 @@ RUN apk update \
     && mkdir /etc/nginx/conf.d \
     && touch /var/run/nginx.pid \
     && mkdir /var/cache/nginx \
-    && chown -R nginx:nginx /var/run/nginx.pid \
+    && chown nginx:nginx /var/run/nginx.pid \
     && chown -R nginx:nginx /var/cache/nginx \
+    && chown -R nginx:nginx /var/log/nginx \
+    && chown -R nginx:nginx /etc/nginx \
     && setcap cap_net_bind_service=+ep /usr/sbin/nginx
 
 USER nginx
