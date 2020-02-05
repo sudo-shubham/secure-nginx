@@ -1,11 +1,11 @@
-FROM alpine:3.10.2
+FROM alpine:3.11.3
 
 LABEL maintainer="Shubham Patel <shubhampatelsp812@gmail.com>"
 
-ENV NGINX_VERSION 1.17.4
+ENV NGINX_VERSION 1.17.8
 
 RUN apk update \
-    && apk add --no-cache wget build-base openssl-dev git pcre-dev zlib-dev \
+    && apk add --no-cache wget build-base libcap openssl-dev git pcre-dev zlib-dev \
     && cd /tmp \
     && git clone https://github.com/openresty/headers-more-nginx-module \
     && cd /etc \
@@ -41,7 +41,8 @@ RUN apk update \
     && touch /var/run/nginx.pid \
     && mkdir /var/cache/nginx \
     && chown -R nginx:nginx /var/run/nginx.pid \
-    && chown -R nginx:nginx /var/cache/nginx
+    && chown -R nginx:nginx /var/cache/nginx \
+    && setcap cap_net_bind_service=+ep /usr/sbin/nginx
 
 USER nginx
 COPY configs/nginx.conf /etc/nginx/nginx.conf
