@@ -2,7 +2,7 @@ FROM alpine:3.11.3
 
 LABEL maintainer="Shubham Patel <shubhampatelsp812@gmail.com>"
 
-ENV NGINX_VERSION 1.17.8
+ENV NGINX_VERSION 1.17.9
 
 RUN apk update \
     && apk add --no-cache wget build-base libcap openssl-dev git pcre-dev zlib-dev \
