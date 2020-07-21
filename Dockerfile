@@ -5,15 +5,16 @@ LABEL maintainer="Shubham Patel <shubhampatelsp812@gmail.com>"
 ENV NGINX_VERSION 1.17.9
 
 RUN apk update \
-    && apk add --no-cache wget build-base libcap openssl-dev git pcre-dev zlib-dev \
+    && apk add --no-cache wget build-base libcap openssl-dev git pcre-dev zlib-dev krb5-dev \
     && cd /tmp \
     && git clone https://github.com/openresty/headers-more-nginx-module \
+    && git clone https://github.com/stnoonan/spnego-http-auth-nginx-module.git \
     && cd /etc \
     && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz \
     && rm nginx-${NGINX_VERSION}.tar.gz \
     && set -x \
-# create nginx user/group first, to be consistent throughout docker variants
+    # create nginx user/group first, to be consistent throughout docker variants
     && addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && cd /etc/nginx-${NGINX_VERSION} \
@@ -25,6 +26,7 @@ RUN apk update \
         --prefix=/etc/nginx \
         --modules-path=/usr/lib/nginx/modules \
         --add-module=/tmp/headers-more-nginx-module \
+        --add-module=/tmp/spnego-http-auth-nginx-module \
         --conf-path=/etc/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --http-log-path=/var/log/nginx/access.log \
